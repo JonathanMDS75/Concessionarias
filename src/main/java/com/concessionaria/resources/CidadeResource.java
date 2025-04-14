@@ -4,6 +4,7 @@ import com.concessionaria.dtos.CidadeDTO;
 
 import com.concessionaria.services.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,25 +17,28 @@ public class CidadeResource {
     @Autowired
     private CidadeService cidadeService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<CidadeDTO>> findAll(CidadeDTO cidade) {
-        return ResponseEntity.ok(cidadeService.findAll());
+    @PostMapping("/")
+    public ResponseEntity<CidadeDTO> create(@RequestBody CidadeDTO cidadeDTO) {
+        CidadeDTO newCidade = cidadeService.createcidade(cidadeDTO);
+        return new ResponseEntity<>(newCidade, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CidadeDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(cidadeService.findById(id));
+        CidadeDTO cidadeDTO = cidadeService.findById(id);
+        return ResponseEntity.ok(cidadeDTO);
     }
 
-
-    @PostMapping("/")
-    public ResponseEntity<CidadeDTO> save(@RequestBody CidadeDTO cidadeDTO) {
-        return ResponseEntity.ok(cidadeService.save(cidadeDTO));
+    @GetMapping("/")
+    public ResponseEntity<List<CidadeDTO>> findAll() {
+        List<CidadeDTO> cidades = cidadeService.findAll();
+        return new ResponseEntity<>(cidades, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<List<CidadeDTO>> update(@PathVariable Long id, @RequestBody CidadeDTO cidadeDTO) {
-        return ResponseEntity.ok((List<CidadeDTO>) cidadeService.update(cidadeDTO));
+    public ResponseEntity <CidadeDTO> updateCidade(@PathVariable Long id, @RequestBody CidadeDTO cidadeDTO) {
+        CidadeDTO cidade = cidadeService.update(cidadeDTO);
+        return ResponseEntity.ok(cidade);
     }
 
     @DeleteMapping("/{id}")

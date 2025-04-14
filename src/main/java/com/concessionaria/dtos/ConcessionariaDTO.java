@@ -12,4 +12,5 @@ public class ConcessionariaDTO {
     private String nome;
     private String cnpj;
     private Long enderecoId;
+    private String endereco;
 }

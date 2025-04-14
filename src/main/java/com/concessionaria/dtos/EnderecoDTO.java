@@ -1,8 +1,12 @@
 package com.concessionaria.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EnderecoDTO {
 
     private Long id;
@@ -10,12 +14,4 @@ public class EnderecoDTO {
     private String numero;
     private String bairro;
     private CidadeDTO cidade;
-
-    public EnderecoDTO(Long id, String rua, String numero, String bairro, CidadeDTO cidade) {
-        this.id = id;
-        this.rua = rua;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.cidade = cidade;
-    }
 }

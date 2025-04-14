@@ -75,4 +75,8 @@ public class CidadeService {
     public static Cidade toEntity(CidadeDTO cidadeDTO) {
         return new Cidade(cidadeDTO.getId(), cidadeDTO.getNome(), cidadeDTO.getCep());
     }
+
+    public CidadeDTO createcidade(CidadeDTO cidadeDTO) {
+
+    }
 }
