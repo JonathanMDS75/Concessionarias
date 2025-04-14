@@ -13,31 +13,33 @@ import java.util.List;
 public class FuncionarioResource {
 
     @Autowired
-    private FuncionarioService funcionarioService;
+    private FuncionarioService service;
 
-    @GetMapping("/")
-    public ResponseEntity<List<FuncionarioDTO>> findAll() {
-        return ResponseEntity.ok(funcionarioService.findAll());
+    @PostMapping
+    public ResponseEntity<FuncionarioDTO> create(@RequestBody FuncionarioDTO dto) {
+        FuncionarioDTO created = service.create(dto);
+        return ResponseEntity.status(201).body(created);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(funcionarioService.findById(id));
+        return ResponseEntity.ok(service.findById(id));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<FuncionarioDTO> save(@RequestBody FuncionarioDTO funcionarioDTO) {
-        return ResponseEntity.ok(funcionarioService.save(funcionarioDTO));
+    @GetMapping
+    public ResponseEntity<List<FuncionarioDTO>> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FuncionarioDTO> update(@PathVariable Long id, @RequestBody FuncionarioDTO funcionarioDTO) {
-        return ResponseEntity.ok(funcionarioService.update(id, funcionarioDTO));
+    public ResponseEntity<FuncionarioDTO> update(@PathVariable Long id, @RequestBody FuncionarioDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.ok(service.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        funcionarioService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

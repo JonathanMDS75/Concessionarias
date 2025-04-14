@@ -13,31 +13,33 @@ import java.util.List;
 public class EnderecoResource {
 
     @Autowired
-    private EnderecoService enderecoService;
+    private EnderecoService service;
 
-    @GetMapping("/")
-    public ResponseEntity<List<EnderecoDTO>> findAll() {
-        return ResponseEntity.ok(enderecoService.findAll());
+    @PostMapping
+    public ResponseEntity<EnderecoDTO> create(@RequestBody EnderecoDTO dto) {
+        EnderecoDTO created = service.create(dto);
+        return ResponseEntity.status(201).body(created);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(enderecoService.findById(id));
+        return ResponseEntity.ok(service.findById(id));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<EnderecoDTO> save(@RequestBody EnderecoDTO enderecoDTO) {
-        return ResponseEntity.ok(enderecoService.save(enderecoDTO));
+    @GetMapping
+    public ResponseEntity<List<EnderecoDTO>> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EnderecoDTO> update(@PathVariable Long id, @RequestBody EnderecoDTO enderecoDTO) {
-        return ResponseEntity.ok(enderecoService.update(id, enderecoDTO));
+    public ResponseEntity<EnderecoDTO> update(@PathVariable Long id, @RequestBody EnderecoDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.ok(service.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        enderecoService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

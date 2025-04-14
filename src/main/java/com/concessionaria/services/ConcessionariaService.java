@@ -21,6 +21,13 @@ public class ConcessionariaService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    public static ConcessionariaDTO createConcessionaria(ConcessionariaDTO dto) {
+        Concessionaria concessionaria = new Concessionaria();
+        concessionaria.setNome(dto.getNome());
+        concessionaria.setCnpj(dto.getCnpj());
+        return ;
+    }
+
     public List<ConcessionariaDTO> findAll() {
         return concessionariaRepository.findAll().stream()
                 .map(this::toDTO)
@@ -89,5 +96,9 @@ public class ConcessionariaService {
         concessionaria.setCnpj(dto.getCnpj());
         concessionaria.setEndereco(endereco);
         return concessionaria;
+    }
+
+    public ConcessionariaDTO create(ConcessionariaDTO dto) {
+
     }
 }

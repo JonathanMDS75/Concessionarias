@@ -13,31 +13,33 @@ import java.util.List;
 public class VeiculoResource {
 
     @Autowired
-    private VeiculoService veiculoService;
+    private VeiculoService service;
 
-    @GetMapping("/")
-    public ResponseEntity<List<VeiculoDTO>> findAll() {
-        return ResponseEntity.ok(veiculoService.findAll());
+    @PostMapping
+    public ResponseEntity<VeiculoDTO> create(@RequestBody VeiculoDTO dto) {
+        VeiculoDTO created = service.create(dto);
+        return ResponseEntity.status(201).body(created);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<VeiculoDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(veiculoService.findById(id));
+        return ResponseEntity.ok(service.findById(id));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<VeiculoDTO> save(@RequestBody VeiculoDTO veiculoDTO) {
-        return ResponseEntity.ok(veiculoService.save(veiculoDTO));
+    @GetMapping
+    public ResponseEntity<List<VeiculoDTO>> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VeiculoDTO> update(@PathVariable Long id, @RequestBody VeiculoDTO veiculoDTO) {
-        return ResponseEntity.ok(veiculoService.update(id, veiculoDTO));
+    public ResponseEntity<VeiculoDTO> update(@PathVariable Long id, @RequestBody VeiculoDTO dto) {
+        dto.setId(id);
+        return ResponseEntity.ok(service.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        veiculoService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
