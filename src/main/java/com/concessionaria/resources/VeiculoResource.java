@@ -31,7 +31,7 @@ public class VeiculoResource {
     @GetMapping
     public ResponseEntity<List<VeiculoDTO>> findAll() {
         List<VeiculoDTO> veiculos = veiculoService.findAll();
-        return ResponseEntity<>(veiculos, HttpStatus.OK);
+        return new ResponseEntity<>(veiculos, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

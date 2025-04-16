@@ -30,7 +30,7 @@ public class FuncionarioResource {
     @GetMapping("/")
     public ResponseEntity<List<FuncionarioDTO>> findAll() {
         List<FuncionarioDTO> funcionarios = funcionarioService.findAll();
-        return ResponseEntity<>(funcionarios, HttpStatus.OK);
+        return new ResponseEntity<>(funcionarios, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

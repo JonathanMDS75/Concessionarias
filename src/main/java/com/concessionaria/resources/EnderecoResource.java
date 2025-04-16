@@ -18,31 +18,32 @@ public class EnderecoResource {
 
     @PostMapping("/")
     public ResponseEntity<EnderecoDTO> createEndereco(@RequestBody EnderecoDTO enderecoDTO) {
-        EnderecoDTO newEndereco = enderecoService.createEndereco(enderecoDTO);
+        EnderecoDTO newEndereco = service.createEndereco(enderecoDTO);
         return new ResponseEntity<>(newEndereco, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EnderecoDTO> findById(@PathVariable Long id) {
-        EnderecoDTO enderecoDTO = enderecoService.findById(id);
+        EnderecoDTO enderecoDTO = service.findById(id);
         return ResponseEntity.ok(enderecoDTO);
     }
 
     @GetMapping("/")
     public ResponseEntity<List<EnderecoDTO>> findAll() {
-        List<EnderecoDTO> enderecos = enderecoService.findAll();
-        return ResponseEntity<>(enderecos, HttpStatus.OK);
+        List<EnderecoDTO> enderecos = service.findAll();
+        return new ResponseEntity<>(enderecos, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EnderecoDTO> updateEndereco(@PathVariable Long id, @RequestBody EnderecoDTO enderecoDTO) {
-        EnderecoDTO endereco = enderecoService.update(enderecoDTO);
+        EnderecoDTO endereco = service.update(enderecoDTO); // Também pode precisar do ID aqui, veja abaixo
         return ResponseEntity.ok(endereco);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        enderecoService.deleteById(id);
+        service.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
 }

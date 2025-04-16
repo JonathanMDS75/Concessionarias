@@ -31,7 +31,8 @@ public class ConcessionariaResource {
     @GetMapping("/")
     public ResponseEntity<List<ConcessionariaDTO>> findAll() {
         List<ConcessionariaDTO> concessionarias = concessionariaService.findAll();
-        return ResponseEntity<>(concessionarias, HttpStatus.OK);
+        return new ResponseEntity<>(concessionarias, HttpStatus.OK);
+
     }
 
     @PutMapping("/{id}")
