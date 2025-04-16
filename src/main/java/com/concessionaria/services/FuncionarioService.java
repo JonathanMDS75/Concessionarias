@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -34,7 +33,7 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public FuncionarioDTO save(FuncionarioDTO dto) {
+    public FuncionarioDTO create(FuncionarioDTO dto) {
         Funcionario funcionario = toEntity(dto);
         funcionario = funcionarioRepository.save(funcionario);
         return toDTO(funcionario);

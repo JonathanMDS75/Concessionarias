@@ -12,45 +12,70 @@ import java.util.List;
 @Service
 public class VeiculoService {
 
-    @Autowired
-    private VeiculoRepository veiculoRepository;
+@Autowired
+private VeiculoRepository veiculoRepository;
 
-    public List<VeiculoDTO> findAll() {
-        return veiculoRepository.findAll().stream().map(VeiculoService::toDTO).toList();
+public List<VeiculoDTO> findAll() {
+    return veiculoRepository.findAll().stream()
+            .map(this::toDTO)
+            .toList();
+}
+
+public VeiculoDTO findById(Long id) {
+    Veiculo veiculo = veiculoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Veículo não encontrado com ID: " + id));
+    return toDTO(veiculo);
+}
+
+@Transactional
+public VeiculoDTO save(VeiculoDTO dto) {
+    Veiculo veiculo = toEntity(dto);
+    veiculo = veiculoRepository.save(veiculo);
+    return toDTO(veiculo);
+}
+
+@Transactional
+public VeiculoDTO update(Long id, VeiculoDTO dto) {
+    Veiculo veiculo = veiculoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Veículo não encontrado com ID: " + id));
+
+    veiculo.setModelo(dto.getModelo());
+    veiculo.setMarca(dto.getMarca());
+    veiculo.setAnoFabricacao(dto.getAnoFabricacao());
+    veiculo.setAnoModelo(dto.getAnoModelo());
+    veiculo.setPreco(dto.getPreco());
+
+    veiculo = veiculoRepository.save(veiculo);
+    return toDTO(veiculo);
+}
+
+@Transactional
+public void deleteById(Long id) {
+    if (!veiculoRepository.existsById(id)) {
+        throw new RuntimeException("Veículo não encontrado com ID: " + id);
     }
+    veiculoRepository.deleteById(id);
+}
 
-    public VeiculoDTO findById(Long id) {
-        Veiculo veiculo = veiculoRepository.findById(id).get();
-        return toDTO(veiculo);
-    }
+private VeiculoDTO toDTO(Veiculo veiculo) {
+    return new VeiculoDTO(
+            veiculo.getId(),
+            veiculo.getModelo(),
+            veiculo.getMarca(),
+            veiculo.getAnoFabricacao(),
+            veiculo.getAnoModelo(),
+            veiculo.getPreco()
+    );
+}
 
-    @Transactional
-    public VeiculoDTO update(Long id, VeiculoDTO dto) {
-        Veiculo veiculo = veiculoRepository.findById(id).get();
-
-        veiculo.setModelo(dto.getModelo());
-        veiculo.setMarca(dto.getMarca());
-        veiculo.setAno(dto.getAno());
-        veiculo.setPreco(dto.getPreco());
-
-        return toDTO(veiculoRepository.save(veiculo));
-    }
-
-    @Transactional
-    public VeiculoDTO save(VeiculoDTO dto) {
-        return toDTO(veiculoRepository.save(toEntity(dto)));
-    }
-
-    @Transactional
-    public void deleteById(Long id) {
-        veiculoRepository.deleteById(id);
-    }
-
-    public static VeiculoDTO toDTO(Veiculo v) {
-        return new VeiculoDTO(v.getId(), v.getModelo(), v.getMarca(), v.getAno(), v.getPreco());
-    }
-
-    public static Veiculo toEntity(VeiculoDTO dto) {
-        return new Veiculo(dto.getId(), dto.getModelo(), dto.getMarca(), dto.getAno(), dto.getPreco());
-    }
+private Veiculo toEntity(VeiculoDTO dto) {
+    Veiculo veiculo = new Veiculo();
+    veiculo.setId(dto.getId());
+    veiculo.setModelo(dto.getModelo());
+    veiculo.setMarca(dto.getMarca());
+    veiculo.setAnoFabricacao(dto.getAnoFabricacao());
+    veiculo.setAnoModelo(dto.getAnoModelo());
+    veiculo.setPreco(dto.getPreco());
+    return veiculo;
+}
 }
