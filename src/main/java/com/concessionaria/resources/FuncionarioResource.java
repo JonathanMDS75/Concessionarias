@@ -3,6 +3,7 @@ package com.concessionaria.resources;
 import com.concessionaria.dtos.FuncionarioDTO;
 import com.concessionaria.services.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,31 +16,32 @@ public class FuncionarioResource {
     @Autowired
     private FuncionarioService service;
 
-    @PostMapping
-    public ResponseEntity<FuncionarioDTO> create(@RequestBody FuncionarioDTO dto) {
-        FuncionarioDTO created = service.create(dto);
-        return ResponseEntity.status(201).body(created);
+    @PostMapping("/")
+    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) {
+        FuncionarioDTO created = service.createFuncionario(funcionarioDTO);
+        return ResponseEntity<>.(newFuncionario, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+        FuncionarioDTO funcionarioDTO = funcionarioService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<FuncionarioDTO>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        List<FuncionarioDTO> funcionarios = funcionarioService.findAll();
+        return ResponseEntity<>(funcionarios, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FuncionarioDTO> update(@PathVariable Long id, @RequestBody FuncionarioDTO dto) {
-        dto.setId(id);
-        return ResponseEntity.ok(service.update(dto));
+    public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable Long id, @RequestBody FuncionarioDTO dtfuncionaioDTO) {
+        FuncionarioDTO funcionario = service.update(funcionarioDTO);
+        return ResponseEntity.ok(funcionario);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        funcionarioService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -14,33 +14,35 @@ import java.util.List;
 public class ConcessionariaResource {
 
     @Autowired
-    private ConcessionariaService service;
+    private ConcessionariaService concessionariaService;
 
-    @PostMapping
-    public ResponseEntity<ConcessionariaDTO> createConcessionaria(@RequestBody ConcessionariaDTO dto) {
-       ConcessionariaDTO newConcessionaria =  ConcessionariaService.createConcessionaria(dto);
+    @PostMapping("/")
+    public ResponseEntity<ConcessionariaDTO> createConcessionaria(@RequestBody ConcessionariaDTO concessionariaDTO) {
+       ConcessionariaDTO newConcessionaria =  concessionariaService.createConcessionaria(concessionariaDTO);
         return new ResponseEntity<>(newConcessionaria, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ConcessionariaDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+        ConcessionariaDTO concessionariaDTO = concessionariaService.findById(id);
+        return ResponseEntity.ok(concessionariaDTO);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<ConcessionariaDTO>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        List<ConcessionariaDTO> concessionarias = concessionariaService.findAll();
+        return ResponseEntity<>(concessionarias, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConcessionariaDTO> update(@PathVariable Long id, @RequestBody ConcessionariaDTO dto) {
-        dto.setId(id);
-        return ResponseEntity.ok(service.update(dto));
+    public ResponseEntity<ConcessionariaDTO> updateConcessionaria(@PathVariable Long id, @RequestBody ConcessionariaDTO concessionariaDTO) {
+        ConcessionariaDTO concessionaria = concessionariaService.update(concessionariaDTO)
+        return ResponseEntity.ok(concessionaria);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        concessionariaService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

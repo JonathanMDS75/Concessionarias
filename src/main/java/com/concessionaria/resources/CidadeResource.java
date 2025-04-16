@@ -19,7 +19,7 @@ public class CidadeResource {
 
     @PostMapping("/")
     public ResponseEntity<CidadeDTO> createCidade(@RequestBody CidadeDTO cidadeDTO) {
-        CidadeDTO newCidade = cidadeService.createcidade(cidadeDTO);
+        CidadeDTO newCidade = cidadeService.createCidade(cidadeDTO);
         return new ResponseEntity<>(newCidade, HttpStatus.CREATED);
     }
 
